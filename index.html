@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ff to Jj: Memory Rush</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family:
+        "Arial Rounded MT Bold",
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+}
+
+/* ==================================================
+   SLIDES
+================================================== */
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
+.slide.active {
+    display: flex;
+}
+
+/* ==================================================
+   TITLE SLIDE
+================================================== */
+
+.title-slide {
+    position: relative;
+    overflow: hidden;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 8% 12%,
+            #fff06a 0 45px,
+            transparent 46px
+        ),
+        radial-gradient(
+            circle at 92% 15%,
+            #ff91b5 0 55px,
+            transparent 56px
+        ),
+        radial-gradient(
+            circle at 10% 88%,
+            #79f4ff 0 60px,
+            transparent 61px
+        ),
+        radial-gradient(
+            circle at 90% 88%,
+            #a5ffbd 0 65px,
+            transparent 66px
+        ),
+        linear-gradient(
+            135deg,
+            #42d9ff,
+            #756fff 52%,
+            #ff83cf
+        );
+}
+
+/* ==================================================
+   FLOATING DECORATIONS
+================================================== */
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: .8;
+
+    animation:
+        float 4s ease-in-out infinite;
+}
+
+.shape1 {
+    width: 90px;
+    height: 90px;
+    background: #ffdf45;
+    top: 8%;
+    left: 7%;
+}
+
+.shape2 {
+    width: 65px;
+    height: 65px;
+    background: #ff6f91;
+    top: 25%;
+    right: 8%;
+    animation-delay: .8s;
+}
+
+.shape3 {
+    width: 55px;
+    height: 55px;
+    background: #72f2a6;
+    bottom: 18%;
+    left: 8%;
+    animation-delay: 1.2s;
+}
+
+.shape4 {
+    width: 75px;
+    height: 75px;
+    background: #ffd166;
+    bottom: 10%;
+    right: 7%;
+    animation-delay: 1.8s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-20px)
+            rotate(12deg);
+    }
+}
+
+/* ==================================================
+   TITLE CONTENT
+================================================== */
+
+.title-content {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    position: relative;
+    z-index: 5;
+}
+
+.game-name {
+    font-size:
+        clamp(45px, 8vw, 100px);
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    color: white;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        5px 5px 0 #ff4f87,
+        9px 9px 0 #5a58d6,
+        0 0 20px rgba(255,255,255,.7);
+
+    margin-bottom: 40px;
+}
+
+/* ==================================================
+   TITLE BUTTONS
+================================================== */
+
+.title-button {
+    width:
+        min(360px, 80vw);
+
+    height: 65px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    margin: 8px;
+
+    padding: 0 20px;
+
+    font-family: inherit;
+
+    white-space: nowrap;
+
+    font-size:
+        clamp(19px, 3vw, 30px);
+
+    font-weight: 900;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        box-shadow .15s;
+}
+
+.title-button:hover {
+    transform:
+        translateY(-4px)
+        scale(1.02);
+}
+
+.title-button:active {
+    transform:
+        translateY(5px);
+}
+
+.how-button {
+    background: #ffb52e;
+
+    box-shadow:
+        0 8px 0 #d88700;
+}
+
+.start-button {
+    background: #35d47b;
+
+    box-shadow:
+        0 8px 0 #15964e;
+}
+
+/* ==================================================
+   TEACHERS
+================================================== */
+
+.teachers {
+    position: absolute;
+
+    bottom: 5%;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color: white;
+
+    font-size:
+        clamp(18px, 3vw, 30px);
+
+    font-weight: bold;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+
+    text-shadow:
+        3px 3px 0 #5754c8;
+
+    z-index: 10;
+}
+
+.teacher-label {
+    color: #ffe75e;
+    font-size: .72em;
+}
+
+/* ==================================================
+   HOW TO PLAY
+================================================== */
+
+.how-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(35,43,105,.85);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 100;
+}
+
+.how-overlay.show {
+    display: flex;
+}
+
+.how-box {
+    width:
+        min(650px, 92vw);
+
+    background: white;
+
+    border:
+        7px solid #ffd43b;
+
+    border-radius: 30px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    box-shadow:
+        0 12px 0 #d99c00,
+        0 20px 50px rgba(0,0,0,.3);
+}
+
+.how-box h2 {
+    color: #ff5b8a;
+
+    font-size:
+        clamp(32px, 6vw, 52px);
+
+    margin-bottom: 25px;
+}
+
+.instructions {
+    color: #444;
+
+    font-size:
+        clamp(21px, 3.5vw, 30px);
+
+    font-weight: 900;
+
+    line-height: 1.7;
+}
+
+.instructions div {
+    margin: 12px 0;
+}
+
+.close-button {
+    margin-top: 25px;
+
+    border: none;
+
+    background: #ff6b6b;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    padding:
+        13px 32px;
+
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 0 #c94444;
+}
+
+/* ==================================================
+   GAME SLIDE
+================================================== */
+
+.game-slide {
+    flex-direction: column;
+
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at 5% 10%,
+            #ffed68 0 30px,
+            transparent 31px
+        ),
+        radial-gradient(
+            circle at 95% 12%,
+            #ff8fab 0 35px,
+            transparent 36px
+        ),
+        radial-gradient(
+            circle at 8% 92%,
+            #8affc1 0 40px,
+            transparent 41px
+        ),
+        linear-gradient(
+            135deg,
+            #43dfff,
+            #6f72ff
+        );
+}
+
+/* ==================================================
+   TIMER
+================================================== */
+
+.game-header {
+    width: 100%;
+
+    height: 15vh;
+
+    min-height: 80px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+
+    position: relative;
+
+    z-index: 50;
+}
+
+.timer {
+    min-width: 110px;
+
+    background: white;
+
+    color: #ff4e6e;
+
+    border:
+        6px solid #ffd43b;
+
+    border-radius: 25px;
+
+    padding:
+        8px 25px;
+
+    text-align: center;
+
+    font-size:
+        clamp(30px, 5vw, 55px);
+
+    font-weight: 900;
+
+    box-shadow:
+        0 7px 0 #c79800;
+}
+
+/* ==================================================
+   HUGE 5-SECOND TIMER
+================================================== */
+
+.timer.flash-five {
+    animation:
+        timerPopHuge
+        0.4s
+        ease-in-out
+        infinite
+        alternate;
+
+    z-index: 100;
+}
+
+@keyframes timerPopHuge {
+
+    0% {
+        transform:
+            scale(1.2);
+
+        background:
+            #ffffff;
+
+        color:
+            #ff1744;
+
+        box-shadow:
+            0 8px 0 #c79800,
+            0 0 20px #fff000;
+    }
+
+    100% {
+        transform:
+            scale(2.8);
+
+        background:
+            #fff02f;
+
+        color:
+            #ff0000;
+
+        box-shadow:
+            0 8px 0 #c79800,
+            0 0 40px #fff000,
+            0 0 80px #fff000,
+            0 0 130px #ff8c00;
+    }
+}
+
+/* ==================================================
+   BOARD
+================================================== */
+
+.board {
+    width:
+        min(94vw, 1250px);
+
+    height:
+        min(75vh, 600px);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    grid-template-rows:
+        repeat(2, 1fr);
+
+    gap:
+        clamp(7px, 1.3vw, 18px);
+
+    padding: 8px;
+}
+
+/* ==================================================
+   TILES
+================================================== */
+
+.tile {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+
+    perspective: 1000px;
+}
+
+.tile-inner {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform .45s
+        cubic-bezier(.2,.7,.3,1);
+}
+
+.tile.flipped .tile-inner,
+.tile.matched .tile-inner {
+    transform:
+        rotateY(180deg);
+}
+
+.tile-front,
+.tile-back {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius:
+        clamp(13px, 1.8vw, 25px);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    backface-visibility: hidden;
+}
+
+/* ==================================================
+   CARD FRONT
+================================================== */
+
+.tile-front {
+    background:
+        linear-gradient(
+            135deg,
+            #ffdc4a,
+            #ff8f4d
+        );
+
+    border:
+        clamp(3px, .5vw, 6px)
+        solid white;
+
+    box-shadow:
+        0 9px 0 #d77a2e,
+        0 12px 20px
+        rgba(0,0,0,.2);
+
+    color: white;
+
+    font-size:
+        clamp(30px, 5vw, 70px);
+
+    text-shadow:
+        3px 3px 0 #c66d25;
+}
+
+/* ==================================================
+   CARD BACK
+================================================== */
+
+.tile-back {
+    transform:
+        rotateY(180deg);
+
+    background:
+        white;
+
+    border:
+        clamp(4px, .6vw, 7px)
+        solid #65e2ff;
+
+    box-shadow:
+        0 9px 0 #309fc2,
+        0 12px 20px
+        rgba(0,0,0,.18);
+
+    font-size:
+        clamp(50px, 8vw, 115px);
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    text-shadow:
+        2px 3px 0
+        rgba(0,0,0,.08);
+}
+
+.upper {
+    color: #ff477e;
+}
+
+.lower {
+    color: #526cff;
+}
+
+.emoji {
+    font-family:
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Noto Color Emoji",
+        sans-serif;
+
+    font-size:
+        clamp(45px, 7vw, 100px);
+
+    text-shadow: none;
+}
+
+/* ==================================================
+   COLORFUL BORDERS
+================================================== */
+
+.tile:nth-child(1) .tile-back {
+    border-color: #ff5b8a;
+}
+
+.tile:nth-child(2) .tile-back {
+    border-color: #5cdcff;
+}
+
+.tile:nth-child(3) .tile-back {
+    border-color: #72e38b;
+}
+
+.tile:nth-child(4) .tile-back {
+    border-color: #ffd34e;
+}
+
+.tile:nth-child(5) .tile-back {
+    border-color: #b47cff;
+}
+
+.tile:nth-child(6) .tile-back {
+    border-color: #ff7b68;
+}
+
+.tile:nth-child(7) .tile-back {
+    border-color: #5bdcff;
+}
+
+.tile:nth-child(8) .tile-back {
+    border-color: #70e58a;
+}
+
+.tile:nth-child(9) .tile-back {
+    border-color: #ffcc4d;
+}
+
+.tile:nth-child(10) .tile-back {
+    border-color: #b578ff;
+}
+
+.tile:nth-child(11) .tile-back {
+    border-color: #ff6688;
+}
+
+.tile:nth-child(12) .tile-back {
+    border-color: #58d9ff;
+}
+
+/* ==================================================
+   MATCHED
+================================================== */
+
+.tile.matched {
+    cursor: default;
+}
+
+.tile.matched .tile-back {
+    background:
+        #dcffd8;
+
+    border-color:
+        #3bdd73;
+
+    box-shadow:
+        0 9px 0 #1fa94d,
+        0 0 25px
+        rgba(70,255,100,.8);
+}
+
+/* ==================================================
+   STAR / X FEEDBACK
+================================================== */
+
+.feedback {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+
+    z-index: 80;
+}
+
+.feedback.show {
+    display: flex;
+
+    animation:
+        feedbackPop .65s ease-out;
+}
+
+.feedback-star {
+    font-size:
+        min(35vw, 330px);
+
+    filter:
+        drop-shadow(0 0 15px #fff)
+        drop-shadow(0 0 35px #fff200)
+        drop-shadow(0 0 70px #ffad00);
+}
+
+.feedback-x {
+    font-family:
+        Arial, sans-serif;
+
+    font-size:
+        min(35vw, 330px);
+
+    font-weight: 900;
+
+    color:
+        #ff2020;
+
+    text-shadow:
+        0 0 10px white,
+        0 0 30px #ff0000,
+        0 0 60px #ff4444;
+}
+
+@keyframes feedbackPop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(.15);
+    }
+
+    55% {
+        opacity: 1;
+
+        transform:
+            scale(1.25);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+/* ==================================================
+   WIN SCREEN
+================================================== */
+
+.win-screen {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle,
+            #4cff9a,
+            #24a96a
+        );
+
+    z-index: 120;
+}
+
+.win-screen.show {
+    display: flex;
+}
+
+.win-box {
+    padding: 30px;
+}
+
+.win-box h1 {
+    font-size:
+        clamp(45px, 9vw, 110px);
+
+    color:
+        #ffe44d;
+
+    text-shadow:
+        6px 6px 0 #d27c00;
+}
+
+.win-box p {
+    color: white;
+
+    font-size:
+        clamp(22px, 4vw, 40px);
+
+    margin: 20px;
+}
+
+.restart-button {
+    border: none;
+
+    background:
+        #ff6688;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size:
+        clamp(20px, 3vw, 30px);
+
+    font-weight: 900;
+
+    padding:
+        15px 35px;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 7px 0 #c93f61;
+
+    cursor: pointer;
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 700px) {
+
+    .game-header {
+        height: 13vh;
+    }
+
+    .board {
+        width: 98vw;
+
+        height: 75vh;
+
+        gap: 5px;
+
+        padding: 4px;
+    }
+
+    .tile-front,
+    .tile-back {
+        border-radius: 11px;
+    }
+
+    .title-button {
+        width: 82vw;
+
+        height: 58px;
+
+        font-size: 19px;
+    }
+
+    .teachers {
+        bottom: 3%;
+    }
+
+    .timer.flash-five {
+        animation:
+            timerPopMobile
+            0.4s
+            ease-in-out
+            infinite
+            alternate;
+    }
+
+    @keyframes timerPopMobile {
+
+        0% {
+            transform:
+                scale(1.1);
+        }
+
+        100% {
+            transform:
+                scale(2.0);
+        }
+    }
+}
+
+@media (max-height: 600px) {
+
+    .game-name {
+        margin-bottom: 12px;
+    }
+
+    .title-button {
+        height: 48px;
+
+        margin: 4px;
+
+        font-size: 17px;
+    }
+
+    .teachers {
+        bottom: 2%;
+
+        font-size: 17px;
+    }
+
+    .game-header {
+        height: 14vh;
+    }
+
+    .board {
+        height: 72vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     SLIDE 1
+================================================== -->
+
+<section
+    id="titleSlide"
+    class="slide title-slide active"
+>
+
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+    <div class="shape shape4"></div>
+
+    <div class="title-content">
+
+        <div class="game-name">
+            Ff to Jj:<br>
+            Memory Rush
+        </div>
+
+        <button
+            class="title-button how-button"
+            onclick="showHowToPlay()"
+        >
+            📖 HOW TO PLAY
+        </button>
+
+        <button
+            class="title-button start-button"
+            onclick="startGame()"
+        >
+            🚀 START GAME
+        </button>
+
+    </div>
+
+    <div class="teachers">
+
+        <div>
+            Teacher Christine
+            &nbsp; • &nbsp;
+            Teacher Sophia
+        </div>
+
+        <div class="teacher-label">
+            ENGLISH TEACHERS
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     HOW TO PLAY
+================================================== -->
+
+<div
+    id="howOverlay"
+    class="how-overlay"
+>
+
+    <div class="how-box">
+
+        <h2>
+            🌟 How to Play 🌟
+        </h2>
+
+        <div class="instructions">
+
+            <div>
+                Remember the letters! 👀
+            </div>
+
+            <div>
+                Match two letters! 👆
+            </div>
+
+        </div>
+
+        <button
+            class="close-button"
+            onclick="hideHowToPlay()"
+        >
+            👍 GOT IT!
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     SLIDE 2 — GAME
+================================================== -->
+
+<section
+    id="gameSlide"
+    class="slide game-slide"
+>
+
+    <div class="game-header">
+
+        <div
+            id="timer"
+            class="timer"
+        >
+            10
+        </div>
+
+    </div>
+
+    <div
+        id="board"
+        class="board"
+    ></div>
+
+</section>
+
+
+<!-- ==================================================
+     FEEDBACK
+================================================== -->
+
+<div
+    id="feedback"
+    class="feedback"
+>
+
+    <div
+        id="feedbackContent"
+    ></div>
+
+</div>
+
+
+<!-- ==================================================
+     WIN SCREEN
+================================================== -->
+
+<div
+    id="winScreen"
+    class="win-screen"
+>
+
+    <div class="win-box">
+
+        <h1>
+            🎉 GREAT JOB! 🎉
+        </h1>
+
+        <p>
+            You found all the matching pairs!
+        </p>
+
+        <button
+            class="restart-button"
+            onclick="restartGame()"
+        >
+            🔄 PLAY AGAIN
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   CARD DATA
+================================================== */
+
+/*
+   MATCHING PAIRS:
+
+   F + f
+   G + g
+   H + h
+   I + i
+   J + j
+
+   DISTRACTORS:
+
+   🍊
+   🍎
+
+   Orange and apple intentionally
+   DO NOT match.
+*/
+
+const cards = [
+
+    {
+        value: "F",
+        type: "upper"
+    },
+
+    {
+        value: "f",
+        type: "lower"
+    },
+
+    {
+        value: "G",
+        type: "upper"
+    },
+
+    {
+        value: "g",
+        type: "lower"
+    },
+
+    {
+        value: "H",
+        type: "upper"
+    },
+
+    {
+        value: "h",
+        type: "lower"
+    },
+
+    {
+        value: "I",
+        type: "upper"
+    },
+
+    {
+        value: "i",
+        type: "lower"
+    },
+
+    {
+        value: "J",
+        type: "upper"
+    },
+
+    {
+        value: "j",
+        type: "lower"
+    },
+
+    {
+        value: "🍊",
+        type: "emoji"
+    },
+
+    {
+        value: "🍎",
+        type: "emoji"
+    }
+
+];
+
+
+let tiles = [];
+
+let firstTile = null;
+
+let secondTile = null;
+
+let locked = false;
+
+let matches = 0;
+
+let countdownValue = 10;
+
+let timerInterval = null;
+
+
+/* ==================================================
+   HOW TO PLAY
+================================================== */
+
+function showHowToPlay() {
+
+    document
+        .getElementById("howOverlay")
+        .classList
+        .add("show");
+}
+
+
+function hideHowToPlay() {
+
+    document
+        .getElementById("howOverlay")
+        .classList
+        .remove("show");
+}
+
+
+/* ==================================================
+   START GAME
+================================================== */
+
+function startGame() {
+
+    hideHowToPlay();
+
+    document
+        .getElementById("titleSlide")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("gameSlide")
+        .classList
+        .add("active");
+
+
+    clearInterval(timerInterval);
+
+
+    firstTile = null;
+
+    secondTile = null;
+
+    locked = false;
+
+    matches = 0;
+
+
+    createBoard();
+
+
+    countdownValue = 10;
+
+
+    const timer =
+        document.getElementById("timer");
+
+
+    timer.textContent =
+        countdownValue;
+
+
+    timer.classList
+        .remove("flash-five");
+
+
+    /*
+       Students have 10 seconds
+       to memorize the cards.
+    */
+
+    timerInterval =
+        setInterval(
+            function() {
+
+                countdownValue--;
+
+                timer.textContent =
+                    countdownValue;
+
+
+                /*
+                   When the timer reaches
+                   exactly 5 seconds,
+                   make it HUGE.
+                */
+
+                if (
+                    countdownValue === 5
+                ) {
+
+                    timer.classList
+                        .add("flash-five");
+
+                }
+
+
+                /*
+                   At zero, hide all cards.
+                */
+
+                if (
+                    countdownValue <= 0
+                ) {
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+
+                    timer.classList
+                        .remove("flash-five");
+
+
+                    timer.textContent =
+                        "GO!";
+
+
+                    hideLetters();
+
+                }
+
+            },
+            1000
+        );
+}
+
+
+/* ==================================================
+   CREATE BOARD
+================================================== */
+
+function createBoard() {
+
+    const board =
+        document.getElementById("board");
+
+
+    board.innerHTML = "";
+
+
+    tiles = [];
+
+
+    const shuffled =
+        shuffle(cards);
+
+
+    shuffled.forEach(
+        function(card) {
+
+            const tile =
+                document.createElement("div");
+
+
+            /*
+               Cards are face-up during
+               the 10-second memorization.
+            */
+
+            tile.className =
+                "tile flipped";
+
+
+            tile.dataset.value =
+                card.value;
+
+
+            tile.dataset.type =
+                card.type;
+
+
+            const inner =
+                document.createElement("div");
+
+            inner.className =
+                "tile-inner";
+
+
+            /* FRONT */
+
+            const front =
+                document.createElement("div");
+
+            front.className =
+                "tile-front";
+
+            front.textContent =
+                "★";
+
+
+            /* BACK */
+
+            const back =
+                document.createElement("div");
+
+            back.className =
+                "tile-back";
+
+
+            if (
+                card.type === "emoji"
+            ) {
+
+                back.classList
+                    .add("emoji");
+
+            }
+
+            else if (
+                card.type === "upper"
+            ) {
+
+                back.classList
+                    .add("upper");
+
+            }
+
+            else {
+
+                back.classList
+                    .add("lower");
+
+            }
+
+
+            back.textContent =
+                card.value;
+
+
+            inner.appendChild(front);
+
+            inner.appendChild(back);
+
+            tile.appendChild(inner);
+
+
+            tile.addEventListener(
+                "click",
+                function() {
+
+                    selectTile(tile);
+
+                }
+            );
+
+
+            board.appendChild(tile);
+
+            tiles.push(tile);
+
+        }
+    );
+}
+
+
+/* ==================================================
+   SHUFFLE
+================================================== */
+
+function shuffle(array) {
+
+    const result =
+        [...array];
+
+
+    for (
+        let i = result.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+
+        [
+            result[i],
+            result[j]
+        ] =
+        [
+            result[j],
+            result[i]
+        ];
+
+    }
+
+
+    return result;
+}
+
+
+/* ==================================================
+   HIDE LETTERS
+================================================== */
+
+function hideLetters() {
+
+    tiles.forEach(
+        function(tile) {
+
+            tile.classList
+                .remove("flipped");
+
+        }
+    );
+}
+
+
+/* ==================================================
+   SELECT TILE
+================================================== */
+
+function selectTile(tile) {
+
+    if (locked) {
+        return;
+    }
+
+
+    if (
+        tile.classList
+            .contains("matched")
+    ) {
+        return;
+    }
+
+
+    if (tile === firstTile) {
+        return;
+    }
+
+
+    tile.classList
+        .add("flipped");
+
+
+    if (!firstTile) {
+
+        firstTile = tile;
+
+        return;
+    }
+
+
+    secondTile = tile;
+
+    locked = true;
+
+
+    checkMatch();
+}
+
+
+/* ==================================================
+   CHECK MATCH
+================================================== */
+
+function checkMatch() {
+
+    const first =
+        firstTile.dataset.value;
+
+    const second =
+        secondTile.dataset.value;
+
+
+    let same = false;
+
+
+    /*
+       Only F/f through J/j
+       can form matching pairs.
+    */
+
+    if (
+        /^[A-Za-z]$/.test(first) &&
+        /^[A-Za-z]$/.test(second) &&
+        first.toLowerCase() ===
+        second.toLowerCase()
+    ) {
+
+        same = true;
+
+    }
+
+
+    /*
+       🍊 and 🍎 are distractors
+       and NEVER match.
+    */
+
+
+    if (same) {
+
+        setTimeout(
+            function() {
+
+                firstTile.classList
+                    .add("matched");
+
+                secondTile.classList
+                    .add("matched");
+
+
+                showFeedback("star");
+
+
+                matches++;
+
+
+                resetTurn();
+
+
+                /*
+                   There are five
+                   matching letter pairs.
+                */
+
+                if (
+                    matches === 5
+                ) {
+
+                    setTimeout(
+                        showWin,
+                        900
+                    );
+
+                }
+
+            },
+            300
+        );
+
+    }
+
+    else {
+
+        setTimeout(
+            function() {
+
+                showFeedback("x");
+
+
+                setTimeout(
+                    function() {
+
+                        firstTile.classList
+                            .remove("flipped");
+
+                        secondTile.classList
+                            .remove("flipped");
+
+                        resetTurn();
+
+                    },
+                    650
+                );
+
+            },
+            300
+        );
+
+    }
+}
+
+
+/* ==================================================
+   RESET TURN
+================================================== */
+
+function resetTurn() {
+
+    firstTile = null;
+
+    secondTile = null;
+
+    locked = false;
+}
+
+
+/* ==================================================
+   FEEDBACK
+================================================== */
+
+function showFeedback(type) {
+
+    const feedback =
+        document.getElementById(
+            "feedback"
+        );
+
+
+    const content =
+        document.getElementById(
+            "feedbackContent"
+        );
+
+
+    if (
+        type === "star"
+    ) {
+
+        content.className =
+            "feedback-star";
+
+        content.textContent =
+            "🌟";
+
+    }
+
+    else {
+
+        content.className =
+            "feedback-x";
+
+        content.textContent =
+            "✕";
+
+    }
+
+
+    feedback.classList
+        .remove("show");
+
+
+    void feedback.offsetWidth;
+
+
+    feedback.classList
+        .add("show");
+
+
+    setTimeout(
+        function() {
+
+            feedback.classList
+                .remove("show");
+
+        },
+        650
+    );
+}
+
+
+/* ==================================================
+   WIN SCREEN
+================================================== */
+
+function showWin() {
+
+    document
+        .getElementById("winScreen")
+        .classList
+        .add("show");
+}
+
+
+/* ==================================================
+   RESTART
+================================================== */
+
+function restartGame() {
+
+    document
+        .getElementById("winScreen")
+        .classList
+        .remove("show");
+
+
+    clearInterval(timerInterval);
+
+
+    startGame();
+}
+
+</script>
+
+</body>
+</html>
